@@ -1,0 +1,157 @@
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: "2020-05-28T21:13:31Z"
+  generation: 1
+  name: djangoa55pp.gotania.info
+spec:
+  api:
+    dns: {}
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://kopsstate.djangoapp.gotania.info/djangoa55pp.gotania.info
+  dnsZone: gotania.info
+  etcdClusters:
+  - cpuRequest: 200m
+    etcdMembers:
+    - instanceGroup: master-eu-west-2a
+      name: a
+    - instanceGroup: master-eu-west-2b
+      name: b
+    - instanceGroup: master-eu-west-2c
+      name: c
+    memoryRequest: 100Mi
+    name: main
+    version: 3.2.24
+  - cpuRequest: 100m
+    etcdMembers:
+    - instanceGroup: master-eu-west-2a
+      name: a
+    - instanceGroup: master-eu-west-2b
+      name: b
+    - instanceGroup: master-eu-west-2c
+      name: c
+    memoryRequest: 100Mi
+    name: events
+    version: 3.2.24
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubelet:
+    anonymousAuth: false
+    authenticationTokenWebhook: true
+    authorizationMode: Webhook
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.15.11
+  masterInternalName: api.internal.djangoa55pp.gotania.info
+  masterPublicName: api.djangoa55pp.gotania.info
+  networkCIDR: 10.0.0.0/16
+  networkID: vpc-03432baaa4fa534d8
+  networking:
+    calico:
+      majorVersion: v3
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 10.0.0.0/24
+    id: subnet-0941c2caef468c997
+    name: eu-west-2a
+    type: Public
+    zone: eu-west-2a
+  - cidr: 10.0.1.0/24
+    id: subnet-0f22a85959e899990
+    name: eu-west-2b
+    type: Public
+    zone: eu-west-2b
+  - cidr: 10.0.2.0/24
+    id: subnet-029dd2650b45243dd
+    name: eu-west-2c
+    type: Public
+    zone: eu-west-2c
+  topology:
+    dns:
+      type: Public
+    masters: public
+    nodes: public
+
+---
+
+apiVersion: kops.k8s.io/v1alpha2
+kind: Cluster
+metadata:
+  creationTimestamp: "2020-05-28T21:12:20Z"
+  name: djangoapp.gotania.info
+spec:
+  api:
+    dns: {}
+  authorization:
+    rbac: {}
+  channel: stable
+  cloudProvider: aws
+  configBase: s3://kopsstate.djangoapp.gotania.info/djangoapp.gotania.info
+  dnsZone: djangoapp.gotania.info
+  etcdClusters:
+  - cpuRequest: 200m
+    etcdMembers:
+    - instanceGroup: master-eu-west-2a
+      name: a
+    - instanceGroup: master-eu-west-2b
+      name: b
+    - instanceGroup: master-eu-west-2c
+      name: c
+    memoryRequest: 100Mi
+    name: main
+    version: 3.2.24
+  - cpuRequest: 100m
+    etcdMembers:
+    - instanceGroup: master-eu-west-2a
+      name: a
+    - instanceGroup: master-eu-west-2b
+      name: b
+    - instanceGroup: master-eu-west-2c
+      name: c
+    memoryRequest: 100Mi
+    name: events
+    version: 3.2.24
+  iam:
+    allowContainerRegistry: true
+    legacy: false
+  kubelet:
+    anonymousAuth: false
+  kubernetesApiAccess:
+  - 0.0.0.0/0
+  kubernetesVersion: 1.15.11
+  masterPublicName: api.djangoapp.gotania.info
+  networkCIDR: 10.0.0.0/16
+  networkID: vpc-03432baaa4fa534d8
+  networking:
+    calico:
+      majorVersion: v3
+  nonMasqueradeCIDR: 100.64.0.0/10
+  sshAccess:
+  - 0.0.0.0/0
+  subnets:
+  - cidr: 10.0.0.0/24
+    id: subnet-0941c2caef468c997
+    name: eu-west-2a
+    type: Public
+    zone: eu-west-2a
+  - cidr: 10.0.1.0/24
+    id: subnet-0f22a85959e899990
+    name: eu-west-2b
+    type: Public
+    zone: eu-west-2b
+  - cidr: 10.0.2.0/24
+    id: subnet-029dd2650b45243dd
+    name: eu-west-2c
+    type: Public
+    zone: eu-west-2c
+  topology:
+    dns:
+      type: Public
+    masters: public
+    nodes: public

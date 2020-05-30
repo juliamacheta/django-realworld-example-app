@@ -1,0 +1,71 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: django-service
+spec:
+  selector:
+    app: django
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template: 
+    metadata: 
+     labels: 
+       app: django
+    spec: 
+      containers:
+       - name: django-app
+         image: machet27/juliasrepo:funnydjango
+         resources:
+           requests:
+             cpu: 400m
+         imagePullPolicy: Always
+         ports:
+           - containerPort: 8000
+         readinessProbe:
+           tcpSocket:
+             port: 8000
+           initialDelaySeconds: 5
+           periodSeconds: 15
+         livenessProbe:
+           tcpSocket: 
+             port: 8000
+           initialDelaySeconds: 15
+           periodSeconds: 30
+         env:
+           - name: SECRET_KEY
+             valueFrom:
+               secretKeyRef:
+                 name: django-secret
+                 key: secret
+
+           - name: POSTGRES_NAME
+             value: postgres
+      
+           - name: POSTGRES_USER
+             valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: user
+
+           - name: POSTGRES_PASSWORD
+             valueFrom:
+               secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+      volumes:
+       - name: postgres-volume-mount
+         persistentVolumeClaim:
+            claimName: postgres-claim

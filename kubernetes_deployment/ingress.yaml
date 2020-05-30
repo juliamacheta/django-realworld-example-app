@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: django-ingress
+  annotations:
+     kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: django.gotania.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: django-service
+          servicePort: 80
+
+
